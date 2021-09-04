@@ -1,6 +1,21 @@
 {
   "name": "fs-components",
   "version": "0.0.1",
+  "author": "Angel D. Munoz",
+  "description": "A simple web components repository written in F#",
+  "keywords": [
+    "fsharp",
+    "webcomponents",
+    "web-components",
+    "fable",
+    "haunted",
+    "lit-html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AngelMunoz/fs-components.git",
+  },
+  "license": "MIT",
   "scripts": {
     "postinstall": "dotnet tool restore",
     "start": "dotnet fable src --watch --run vite",
