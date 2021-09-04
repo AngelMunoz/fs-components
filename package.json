@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/AngelMunoz/fs-components.git",
+    "url": "https://github.com/AngelMunoz/fs-components.git"
   },
   "license": "MIT",
   "scripts": {
