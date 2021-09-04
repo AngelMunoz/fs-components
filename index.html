@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F# Components</title>
+    <script src="https://unpkg.com/construct-style-sheets-polyfill"></script>
+  </head>
+  <body>
+    <div id="msg-wrapper">
+      <fs-message header="I have a header!" kind="primary">
+        I am a closable message.
+      </fs-message>
+  
+      <fs-message header="I have a header!" kind="link">
+        I am a closable message.
+      </fs-message>
+  
+      <fs-message header="I have a header!" kind="info">
+        I am a closable message.
+      </fs-message>
+  
+      <fs-message header="I have a header!" kind="success">
+        I am a closable message.
+      </fs-message>
+  
+      <fs-message header="I have a header!" kind="warning">
+        I am a closable message.
+      </fs-message>
+  
+      <fs-message header="I have a header!" kind="danger">
+        I am a closable message.
+      </fs-message>
+  
+      <button id="message-close">close the first fs-message</button>
+      <button id="message-creator">create a new fs-message</button>
+
+      <fs-message kind="warning">
+        I am a non-closable message. The application has to close me.
+      </fs-message>
+
+    </div>
+
+    <style>
+      html, body  {
+        margin: 0;
+        padding: 0.5em;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+    </style>
+    <script type="module">
+      import { registerAll } from '/src/Main.js'
+      registerAll();
+      const closer = document.querySelector("#message-close");
+      const creator = document.querySelector("#message-creator");
+
+      const msgWrapper = document.querySelector('#msg-wrapper');
+      msgWrapper.addEventListener('fs-close-message', (event) => {
+        event.target.remove();
+      });
+
+      closer.onclick = function() {
+        const fsMessage = msgWrapper.querySelector('fs-message');
+        fsMessage?.remove();
+      }
+      creator.onclick = function() {
+        const fsMessage = document.createElement('fs-message');
+        const text = document.createTextNode('I am a new message!');
+        fsMessage.setAttribute('header', 'I am a new fs-message');
+        fsMessage.setAttribute('kind', 'link');
+        fsMessage.appendChild(text);
+        msgWrapper.appendChild(fsMessage);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "fs-components",
+  "version": "0.0.1",
+  "scripts": {
+    "postinstall": "dotnet tool restore",
+    "start": "dotnet fable src --watch --run vite",
+    "build": "dotnet fable src --run vite build",
+    "serve": "dotnet fable src --run vite preview"
+  },
+  "dependencies": {
+    "haunted": "4.8.2",
+    "lit-html": "2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "vite": "^2.5.2"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/fs-components.umd.js",
+  "module": "./dist/fs-components.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/fs-components.es.js",
+      "require": "./dist/fs-components.umd.js"
+    }
+  }
+}
