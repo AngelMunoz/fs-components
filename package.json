@@ -20,7 +20,8 @@
     "postinstall": "dotnet tool restore",
     "start": "dotnet fable src --watch --run vite",
     "build": "dotnet fable src --run vite build",
-    "serve": "dotnet fable src --run vite preview"
+    "serve": "dotnet fable src --run vite preview",
+    "prepublish": "pnpm build"
   },
   "dependencies": {
     "haunted": "4.8.2",
