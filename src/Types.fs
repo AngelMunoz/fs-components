@@ -11,3 +11,8 @@ type Kind =
     | [<CompiledName("warning")>] Warning
     | [<CompiledName("danger")>] Danger
     | [<CompiledName("default")>] Default
+
+[<StringEnum; RequireQualifiedAccess>]
+type OffcanvasPosition =
+    | [<CompiledName("left")>] Left
+    | [<CompiledName("right")>] Right

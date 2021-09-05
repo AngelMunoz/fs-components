@@ -1,0 +1,58 @@
+:host {
+    display: flex;
+    justify-content: stretch;
+    --fs-offcanvas-overlay-color: var(--dark-color);
+    --fs-offcanvas-overlay-opacity: 0.5;
+    --fs-offcanvas-overlay-z-index: 2;
+    --fs-offcanvas-z-index: 2;
+    --fs-offcanvas-width: 300px;
+    --fs-offcanvas-max-width: 320px;
+    --fs-offcanvas-background-color: var(--light-color);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--fs-offcanvas-overlay-color);
+    opacity: var(--fs-offcanvas-overlay-opacity);
+    z-index: var(-fs-offcanvas-overlay-z-index);
+}
+
+aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: var(--fs-offcanvas-width);
+    max-width: var(--fs-offcanvas-max-width);
+    background-color: var(--fs-offcanvas-background-color);
+    z-index: var(--fs-offcanvas-z-index);
+    padding: 0.5em 2em;
+}
+
+aside.is-right {
+    right: 0;
+    left: initial;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 0;
+}
+
+.delete {
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+}

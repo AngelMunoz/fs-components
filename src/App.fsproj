@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Compile Include="Types.fs" />
+    <Compile Include="Styles.fs" />
+    <Compile Include="OffCanvas.fs" />
     <Compile Include="Message.fs" />
     <Compile Include="Library.fs" />
   </ItemGroup>
