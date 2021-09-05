@@ -7,3 +7,5 @@
 let registerAll () =
     Message.register ()
     Offcanvas.register ()
+    Tabs.registerTabItem ()
+    Tabs.registerTabHost ()

@@ -11,6 +11,7 @@
     <Compile Include="Styles.fs" />
     <Compile Include="OffCanvas.fs" />
     <Compile Include="Message.fs" />
+    <Compile Include="Tabs.fs" />
     <Compile Include="Library.fs" />
   </ItemGroup>
   <ItemGroup>
