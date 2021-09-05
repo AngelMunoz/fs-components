@@ -6,42 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>F# Components</title>
     <script src="https://unpkg.com/construct-style-sheets-polyfill"></script>
-  </head>
-  <body>
-    <div id="msg-wrapper">
-      <fs-message header="I have a header!" kind="primary">
-        I am a closable message.
-      </fs-message>
-  
-      <fs-message header="I have a header!" kind="link">
-        I am a closable message.
-      </fs-message>
-  
-      <fs-message header="I have a header!" kind="info">
-        I am a closable message.
-      </fs-message>
-  
-      <fs-message header="I have a header!" kind="success">
-        I am a closable message.
-      </fs-message>
-  
-      <fs-message header="I have a header!" kind="warning">
-        I am a closable message.
-      </fs-message>
-  
-      <fs-message header="I have a header!" kind="danger">
-        I am a closable message.
-      </fs-message>
-  
-      <button id="message-close">close the first fs-message</button>
-      <button id="message-creator">create a new fs-message</button>
-
-      <fs-message kind="warning">
-        I am a non-closable message. The application has to close me.
-      </fs-message>
-
-    </div>
-
     <style>
       html, body  {
         margin: 0;
@@ -49,10 +13,23 @@
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       }
     </style>
+  </head>
+  <body>
+    <div id="msg-wrapper">
+      <fs-message header="I have a header!" kind="primary">
+        I am a closable message.
+      </fs-message>
+      <button id="message-creator">create a new fs-message</button>
+      <fs-off-canvas is-open closable>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id enim finibus, dapibus dui in, tincidunt est. Nullam a maximus mi, pellentesque rutrum neque. Etiam tempus, justo a cursus efficitur, leo neque sagittis lorem, quis mattis orci augue sagittis ipsum. Proin ultrices diam a sapien malesuada maximus. Etiam rhoncus fermentum purus, sit amet mollis sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent blandit luctus gravida. Nulla vulputate at sapien id aliquet. In hac habitasse platea dictumst. Ut sit amet ex eget augue tempus varius. Pellentesque feugiat velit molestie lorem laoreet fermentum. Ut eget felis laoreet, faucibus dolor vel, ullamcorper lacus. Praesent posuere nisl sapien, vitae tempus erat aliquam ut. Suspendisse nisi nulla, tincidunt id elit ac, tincidunt porttitor turpis.
+        </p>
+      </fs-off-canvas>
+    </div>
+
     <script type="module">
       import { registerAll } from '/src/Main.js'
       registerAll();
-      const closer = document.querySelector("#message-close");
       const creator = document.querySelector("#message-creator");
 
       const msgWrapper = document.querySelector('#msg-wrapper');
@@ -60,10 +37,11 @@
         event.target.remove();
       });
 
-      closer.onclick = function() {
-        const fsMessage = msgWrapper.querySelector('fs-message');
-        fsMessage?.remove();
-      }
+      msgWrapper.addEventListener('fs-close-off-canvas', (event) => {
+        console.log(event);
+        event.target.removeAttribute('is-open');
+      });
+
       creator.onclick = function() {
         const fsMessage = document.createElement('fs-message');
         const text = document.createTextNode('I am a new message!');
