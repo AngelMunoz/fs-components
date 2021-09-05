@@ -1,6 +1,6 @@
 {
   "name": "fsharp-components",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "author": "Angel D. Munoz",
   "description": "A simple web components repository written in F#",
   "keywords": [
