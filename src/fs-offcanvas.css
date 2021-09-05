@@ -20,6 +20,26 @@
     opacity: var(--fs-offcanvas-overlay-opacity);
     z-index: var(-fs-offcanvas-overlay-z-index);
 }
+.overlay.is-primary {
+    --fs-offcanvas-overlay-color: var(--primary-color-dark);
+}
+.overlay.is-link {
+    --fs-offcanvas-overlay-color: var(--link-color-dark);
+}
+.overlay.is-info {
+    --fs-offcanvas-overlay-color: var(--info-color-dark);
+}
+.overlay.is-success {
+    --fs-offcanvas-overlay-color: var(--success-color-dark);
+}
+.overlay.is-warning {
+    --fs-offcanvas-overlay-color: var(--warning-color-dark);
+}
+.overlay.is-danger {
+    --fs-offcanvas-overlay-color: var(--danger-color-dark);
+}
+
+
 
 aside {
     display: flex;
@@ -38,6 +58,25 @@ aside {
     padding: 0.5em 2em;
 }
 
+aside.is-primary {
+    --fs-offcanvas-background-color: var(--primary-color-light);
+}
+aside.is-link {
+    --fs-offcanvas-background-color: var(--link-color-light);
+}
+aside.is-info {
+    --fs-offcanvas-background-color: var(--info-color-light);
+}
+aside.is-success {
+    --fs-offcanvas-background-color: var(--success-color-light);
+}
+aside.is-warning {
+    --fs-offcanvas-background-color: var(--warning-color-light);
+}
+aside.is-danger {
+    --fs-offcanvas-background-color: var(--danger-color-light);
+}
+
 aside.is-right {
     right: 0;
     left: initial;
@@ -51,8 +90,5 @@ header {
 }
 
 .delete {
-    cursor: pointer;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: auto;
+    --delete-color: var(--dark-color);
 }

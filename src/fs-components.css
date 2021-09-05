@@ -28,3 +28,13 @@
     --white-color: #ffffff;
     --black-color: #000000;
 }
+
+.delete {
+    --delete-color: #FFFFFF;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--delete-color);
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}

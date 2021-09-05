@@ -16,9 +16,10 @@ type FsOffCanvasElement =
     inherit HTMLElement
 
     abstract member isOpen : bool option with get, set
-    abstract member withOverlay : bool option with get, set
+    abstract member noOverlay : bool option with get, set
     abstract member closable : bool option with get, set
     abstract member position : OffcanvasPosition option with get, set
+    abstract member kind : Kind option with get, set
 
 
 let private styles =
@@ -36,58 +37,85 @@ let private tryClose (host: FsOffCanvasElement) _ =
 
     host |> dispatchEvent evt
 
+let initializeHost (host: FsOffCanvasElement) _ =
+    match host.isOpen with
+    | Some _ -> ()
+    | None -> host.isOpen <- Some false
+
+    match host.closable with
+    | Some _ -> ()
+    | None -> host.closable <- Some false
+
+    match host.noOverlay with
+    | Some _ -> ()
+    | None -> host.noOverlay <- Some false
+
+    match host.position with
+    | Some _ -> ()
+    | None -> host.position <- Some OffcanvasPosition.Left
+
+    match host.kind with
+    | Some _ -> ()
+    | None -> host.kind <- Some Kind.Default
 
 let private OffCanvas (host: FsOffCanvasElement) =
     ShadowStyles.adoptStyleSheets (host, styles)
 
-    Haunted.useEffect (
-        // ensure values are initialized
-        (fun _ ->
-            match host.isOpen with
-            | Some true
-            | Some false -> ()
-            | None -> host.isOpen <- Some false
-
-            match host.closable with
-            | Some true
-            | Some false -> ()
-            | None -> host.closable <- Some false
-
-            match host.withOverlay with
-            | Some true
-            | Some false -> ()
-            | None -> host.withOverlay <- Some true
-
-            match host.position with
-            | Some pos -> host.position <- Some pos
-            | None -> host.position <- Some OffcanvasPosition.Left),
-        [||]
-    )
+    Haunted.useEffect (initializeHost host, [||])
 
     let fallbackContent () =
-        if host.closable |> Option.defaultValue true then
-            html $"""<button class="delete" @click={(tryClose host)}>&times;</button>"""
-        else
-            Lit.nothing
+        match host.closable with
+        | Some true -> html $"""<button class="delete" @click={(tryClose host)}>&times;</button>"""
+        | _ -> Lit.nothing
 
-    let overlayContent () =
-        JS.console.log (host)
-
+    let overlayContent (classes: (string * bool) seq) =
         let handler =
             match host.closable with
             | Some true -> (tryClose host) |> Some
             | _ -> None
 
-        match host.withOverlay with
-        | Some true -> html $"""<div class="overlay" @click={handler}></div>"""
-        | _ -> Lit.nothing
+        let classes () =
+            seq {
+                "overlay", true
+                yield! classes
+            }
+            |> Lit.classes
+
+        match host.noOverlay with
+        | Some true -> Lit.nothing
+        | _ ->
+            html
+                $"""
+                <div
+                    class={classes ()}
+                    @click={handler}>
+                </div>
+                """
+
+    let asideClasses () =
+        seq {
+            match host.position with
+            | Some OffcanvasPosition.Right -> "is-right", true
+            | _ -> "is-right", false
+
+            match host.kind with
+            | Some Primary -> "is-primary", true
+            | Some Link -> "is-link", true
+            | Some Success -> "is-success", true
+            | Some Info -> "is-info", true
+            | Some Warning -> "is-warning", true
+            | Some Danger -> "is-danger", true
+            | _ -> "is-default", true
+        }
 
     match host.isOpen with
     | Some true ->
+        let classes = asideClasses ()
+
         html
             $"""
-             {overlayContent ()}
-             <aside>
+             {overlayContent classes}
+             <aside class={Lit.classes classes}>
                 <header>
                     <slot name="header-text"></slot>
                     <slot name="header-icon">
@@ -111,5 +139,6 @@ let register () =
                    [| "is-open"
                       "position"
                       "closable"
-                      "with-overlay" |] |}
+                      "no-overlay"
+                      "kind" |] |}
         ))

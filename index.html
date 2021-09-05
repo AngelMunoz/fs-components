@@ -6,50 +6,180 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>F# Components</title>
     <script src="https://unpkg.com/construct-style-sheets-polyfill"></script>
+    <script src="https://unpkg.com/aurelia-script@1.5.2"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <style>
-      html, body  {
+      html,
+      body {
         margin: 0;
         padding: 0.5em;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      }
+      :not(:defined) {
+        visibility: hidden;
       }
     </style>
   </head>
   <body>
-    <div id="msg-wrapper">
-      <fs-message header="I have a header!" kind="primary">
-        I am a closable message.
+    <div id="fs-messages">
+      <section
+        style="display: flex; flex-wrap: wrap; justify-content: space-evenly"
+      >
+        <button click.delegate="pushMessage('primary')">create primary</button>
+        <button click.delegate="pushMessage('info')">create info</button>
+        <button click.delegate="pushMessage('link')">create link</button>
+        <button click.delegate="pushMessage('success')">create success</button>
+        <button click.delegate="pushMessage('warning')">create warning</button>
+        <button click.delegate="pushMessage('danger')">create danger</button>
+      </section>
+      <fs-message
+        repeat.for="msg of messages"
+        header.bind="msg.header"
+        kind.bind="msg.kind"
+        fs-close-message.delegate="deleteMessage(msg.id)"
+      >
+        ${msg.content}
       </fs-message>
-      <button id="message-creator">create a new fs-message</button>
-      <fs-off-canvas is-open closable>
+    </div>
+
+    <div
+      id="fs-off-canvas"
+      x-data="
+      {
+          isOpen: true,
+          position: 'right',
+          closable: true,
+          noOverlay: false,
+          kind: ''
+      }
+    "
+    >
+      <fs-off-canvas
+        x-bind:is-open="isOpen"
+        x-bind:closable="closable"
+        x-bind:no-overlay="noOverlay"
+        x-bind:kind="kind"
+        x-bind:position="position"
+        x-on:fs-close-off-canvas="isOpen = false"
+      >
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id enim finibus, dapibus dui in, tincidunt est. Nullam a maximus mi, pellentesque rutrum neque. Etiam tempus, justo a cursus efficitur, leo neque sagittis lorem, quis mattis orci augue sagittis ipsum. Proin ultrices diam a sapien malesuada maximus. Etiam rhoncus fermentum purus, sit amet mollis sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent blandit luctus gravida. Nulla vulputate at sapien id aliquet. In hac habitasse platea dictumst. Ut sit amet ex eget augue tempus varius. Pellentesque feugiat velit molestie lorem laoreet fermentum. Ut eget felis laoreet, faucibus dolor vel, ullamcorper lacus. Praesent posuere nisl sapien, vitae tempus erat aliquam ut. Suspendisse nisi nulla, tincidunt id elit ac, tincidunt porttitor turpis.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id
+          enim finibus, dapibus dui in, tincidunt est. Nullam a maximus mi,
+          pellentesque rutrum neque. Etiam tempus, justo a cursus efficitur, leo
+          neque sagittis lorem, quis mattis orci augue sagittis ipsum. Proin
+          ultrices diam a sapien malesuada maximus. Etiam rhoncus fermentum
+          purus, sit amet mollis sapien. Class aptent taciti sociosqu ad litora
+          torquent per conubia nostra, per inceptos himenaeos. Praesent blandit
+          luctus gravida. Nulla vulputate at sapien id aliquet. In hac habitasse
+          platea dictumst. Ut sit amet ex eget augue tempus varius. Pellentesque
+          feugiat velit molestie lorem laoreet fermentum. Ut eget felis laoreet,
+          faucibus dolor vel, ullamcorper lacus. Praesent posuere nisl sapien,
+          vitae tempus erat aliquam ut. Suspendisse nisi nulla, tincidunt id
+          elit ac, tincidunt porttitor turpis.
         </p>
+        <button x-on:click="isOpen = false">Close with user action</button>
       </fs-off-canvas>
+      <div>
+        <label>Toggle options:</label>
+        <br />
+        <label>
+          <input type="checkbox" x-model="isOpen" name="is-open" />
+          Open
+        </label>
+        <label>
+          <input type="checkbox" x-model="noOverlay" name="no-overlay" />
+          hide Overlay
+        </label>
+        <label>
+          <input type="checkbox" x-model="closable" name="has-overlay" />
+          Can be closed
+        </label>
+      </div>
+      <div>
+        <label>Offcanvas kind:</label>
+        <br />
+        <label>
+          <input type="radio" name="kind" x-model="kind" value="primary" />
+          primary
+        </label>
+        <label>
+          <input type="radio" name="kind" x-model="kind" value="info" />
+          info
+        </label>
+        <label>
+          <input type="radio" name="kind" x-model="kind" value="link" />
+          link
+        </label>
+        <label>
+          <input type="radio" name="kind" x-model="kind" value="success" />
+          success
+        </label>
+        <label>
+          <input type="radio" name="kind" x-model="kind" value="warning" />
+          warning
+        </label>
+        <label>
+          <input type="radio" name="kind" x-model="kind" value="danger" />
+          danger
+        </label>
+        <label>
+          <input type="radio" name="kind" x-model="kind" value="" />
+          default
+        </label>
+      </div>
     </div>
 
     <script type="module">
-      import { registerAll } from '/src/Main.js'
+      import { registerAll } from "/src/Main.js";
       registerAll();
-      const creator = document.querySelector("#message-creator");
+    </script>
+    <script>
+      au.enhance({
+        host: document.body.querySelector("#fs-messages"),
+        root: class {
+          constructor() {
+            this.messages = [];
+          }
 
-      const msgWrapper = document.querySelector('#msg-wrapper');
-      msgWrapper.addEventListener('fs-close-message', (event) => {
-        event.target.remove();
+          pushMessage(kind) {
+            this.messages = [
+              ...this.messages,
+              {
+                id: this.messages.length + 1,
+                kind,
+                header: `I have a header!`,
+                content: "I'm the content",
+              },
+            ];
+          }
+
+          deleteMessage(id) {
+            this.messages = this.messages.filter((m) => m.id !== id);
+          }
+        },
       });
+    </script>
+    <script>
+      au.enhance({
+        debug: true,
+        host: document.body.querySelector("#fs-off-canvas"),
+        root: class OffCanvasVM {
+          constructor() {
+            this.offCanvasOpts = {
+              isOpen: true,
+              position: "right",
+              closable: true,
+              withOverlay: false,
+              kind: "primary",
+            };
+          }
 
-      msgWrapper.addEventListener('fs-close-off-canvas', (event) => {
-        console.log(event);
-        event.target.removeAttribute('is-open');
+          close() {
+            this.offCanvasOpts = { ...this.offCanvasOpts, isOpen: false };
+          }
+        },
       });
-
-      creator.onclick = function() {
-        const fsMessage = document.createElement('fs-message');
-        const text = document.createTextNode('I am a new message!');
-        fsMessage.setAttribute('header', 'I am a new fs-message');
-        fsMessage.setAttribute('kind', 'link');
-        fsMessage.appendChild(text);
-        msgWrapper.appendChild(fsMessage);
-      }
     </script>
   </body>
 </html>
