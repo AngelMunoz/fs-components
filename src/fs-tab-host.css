@@ -1,0 +1,15 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+    --fs-tab-host-tabs-border: var(--dark-color);
+}
+
+.tab-content {
+    margin: 1em 0.5em;
+}
+
+nav ::slotted(*) {
+    display: flex;
+    border-bottom: 2px solid var(--fs-tab-host-tabs-border);
+}

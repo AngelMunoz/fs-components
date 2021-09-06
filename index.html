@@ -130,6 +130,22 @@
       </div>
     </div>
 
+    <div id="fs-tabs">
+      <fs-tab-host tabs.one-way="tabs" on-fs-tab-selected.delegate="setSelected($event)">
+        <div slot="tabs" 
+            >
+          <fs-tab-item
+            repeat.for="tab of tabs"
+            id.bind="tab.id"
+            tab-name.bind="tab.label"
+            is-closable.bind="tab.closable"
+            on-fs-tab-close.delegate="closeTab(tab)"
+            >${tab.label}</fs-tab-item>
+        </div>
+        ${selected.label || 'Unselected'}
+      </fs-tab-host>
+    </div>
+
     <script type="module">
       import { registerAll } from "/src/Main.js";
       registerAll();
@@ -163,23 +179,25 @@
     <script>
       au.enhance({
         debug: true,
-        host: document.body.querySelector("#fs-off-canvas"),
-        root: class OffCanvasVM {
+        host: document.body.querySelector("#fs-tabs"),
+        root: class {
           constructor() {
-            this.offCanvasOpts = {
-              isOpen: true,
-              position: "right",
-              closable: true,
-              withOverlay: false,
-              kind: "primary",
-            };
+            this.tabs = [
+              { id: "home", label: "Home", selected: false, closable: false },
+              { id: "about", label: "About", selected: false, closable: false },
+              { id: "extras", label: "Extras", selected: false, closable: true },
+            ]
+            this.selected = null;
           }
 
-          close() {
-            this.offCanvasOpts = { ...this.offCanvasOpts, isOpen: false };
+          setSelected(event) {
+            this.selected = this.tabs.find(t => t.id === event?.detail.id);
           }
-        },
-      });
+          closeTab(tab) {
+            this.tabs = this.tabs.filter(t => t.id !== tab.id);
+          }
+        }
+      })
     </script>
   </body>
 </html>
