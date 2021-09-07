@@ -4,6 +4,7 @@
     --fs-tab-item-width: 20%;
     display: flex;
     padding: 0.5em 0.5em;
+    margin: 0 2px;
     cursor: pointer;
     border: 1px solid var(--fs-tab-item-color);
     border-top-left-radius: 4px;
@@ -13,7 +14,32 @@
 }
 
 :host([is-selected]) {
-    border-top: 2px solid var(--fs-tab-item-color);
+    border-top: 2px solid ;
+    border-top-color: var(--fs-tab-item-color);
+}
+
+:host([kind=primary]) {
+    --fs-tab-item-color: var(--primary-color);
+}
+
+:host([kind=info]) {
+    --fs-tab-item-color: var(--info-color);
+}
+
+:host([kind=link]) {
+    --fs-tab-item-color: var(--link-color);
+}
+
+:host([kind=success]) {
+    --fs-tab-item-color: var(--success-color);
+}
+
+:host([kind=warning]) {
+    --fs-tab-item-color: var(--warning-color);
+}
+
+:host([kind=danger]) {
+    --fs-tab-item-color: var(--danger-color);
 }
 
 .delete {
