@@ -5,11 +5,46 @@
     --fs-tab-host-tabs-border: var(--dark-color);
 }
 
-.tab-content {
-    margin: 1em 0.5em;
+section {
+    padding: 1em 0.5em;
+    border: 1px solid;
+    border-color: var(--fs-tab-host-tabs-border);
+    border-top: none;
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
+
 
 nav ::slotted(*) {
     display: flex;
-    border-bottom: 2px solid var(--fs-tab-host-tabs-border);
+}
+
+nav {
+    border-bottom: 1px solid;
+    border-bottom-color: var(--fs-tab-host-tabs-border);
+}
+
+nav.is-primary, section.is-primary {
+    --fs-tab-host-tabs-border: var(--primary-color);
+}
+
+nav.is-info, section.is-info {
+    --fs-tab-host-tabs-border: var(--info-color);
+}
+
+nav.is-link, section.is-link {
+    --fs-tab-host-tabs-border: var(--link-color);
+}
+
+nav.is-success, section.is-success {
+    --fs-tab-host-tabs-border: var(--success-color);
+}
+
+nav.is-warning, section.is-warning {
+    --fs-tab-host-tabs-border: var(--warning-color);
+}
+
+nav.is-danger, section.is-danger {
+    --fs-tab-host-tabs-border: var(--danger-color);
 }

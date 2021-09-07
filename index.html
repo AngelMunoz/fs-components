@@ -7,7 +7,7 @@
     <title>F# Components</title>
     <script src="https://unpkg.com/construct-style-sheets-polyfill"></script>
     <script src="https://unpkg.com/aurelia-script@1.5.2"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
     <style>
       html,
       body {
@@ -47,7 +47,7 @@
       id="fs-off-canvas"
       x-data="
       {
-          isOpen: true,
+          isOpen: false,
           position: 'right',
           closable: true,
           noOverlay: false,
@@ -131,18 +131,23 @@
     </div>
 
     <div id="fs-tabs">
-      <fs-tab-host tabs.one-way="tabs" on-fs-tab-selected.delegate="setSelected($event)">
-        <div slot="tabs" 
-            >
+      <fs-tab-host
+        kind="info"
+        on-fs-tab-selected.delegate="setSelected($event)">
+        <div slot="tabs">
           <fs-tab-item
             repeat.for="tab of tabs"
             id.bind="tab.id"
             tab-name.bind="tab.label"
             is-closable.bind="tab.closable"
-            on-fs-tab-close.delegate="closeTab(tab)"
-            >${tab.label}</fs-tab-item>
+            kind.bind="tab.kind"
+            on-fs-tab-close.delegate="closeTab(tab)">
+            ${tab.label}
+          </fs-tab-item>
         </div>
-        ${selected.label || 'Unselected'}
+        <div>
+          ${selected.label || 'Unselected'}
+        </div>
       </fs-tab-host>
     </div>
 
@@ -183,15 +188,19 @@
         root: class {
           constructor() {
             this.tabs = [
-              { id: "home", label: "Home", selected: false, closable: false },
-              { id: "about", label: "About", selected: false, closable: false },
-              { id: "extras", label: "Extras", selected: false, closable: true },
+              { id: 'home', label: 'Home', selected: true, kind: 'primary', closable: false },
+              { id: 'about', label: 'About', selected: false, kind: 'danger', closable: false },
+              { id: 'extras', label: 'Extras', selected: false, kind: 'warning', closable: true },
+              { id: 'Tab4', label: 'Tab 4', selected: true, kind: 'info', closable: true },
+              { id: 'Tab5', label: 'Tab 5', selected: false, kind: 'default', closable: true },
             ]
-            this.selected = null;
+            this.selected = { };
           }
 
           setSelected(event) {
             this.selected = this.tabs.find(t => t.id === event?.detail.id);
+            const tabHost = document.body.querySelector('fs-tab-host');
+            tabHost.setAttribute("kind", this.selected.kind);
           }
           closeTab(tab) {
             this.tabs = this.tabs.filter(t => t.id !== tab.id);
